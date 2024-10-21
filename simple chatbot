@@ -1,0 +1,40 @@
+import random
+import nltk
+import spacy
+from nltk.chat.util import Chat, reflections
+
+# Load spaCy model
+nlp = spacy.load("en_core_web_sm")
+
+# Simple pairs for the chatbot
+pairs = [
+    [r"my name is (.*)", ["Hello %1, how can I assist you today?"]],
+    [r"hi|hello|hey", ["Hello!", "Hi there!", "Greetings!"]],
+    [r"how are you?", ["I'm just a bunch of code, but thanks for asking!", "Doing well, how about you?"]],
+    [r"(.*) help (.*)", ["I can assist you with a variety of topics. What do you need help with?"]],
+    [r"(.*) your name?", ["I'm a chatbot created to assist you."]],
+    [r"quit", ["Bye! Take care."]],
+]
+
+# Create the chatbot
+chatbot = Chat(pairs, reflections)
+
+# Function to process user input
+def process_input(user_input):
+    doc = nlp(user_input)
+    # Here you could add more complex processing if needed
+    return user_input
+
+# Main conversation loop
+def chat():
+    print("Hi! I'm a chatbot. Type 'quit' to exit.")
+    while True:
+        user_input = input("You: ")
+        user_input = process_input(user_input)
+        response = chatbot.respond(user_input)
+        print("Bot:", response)
+        if user_input.lower() == "quit":
+            break
+
+if __name__ == "__main__":
+    chat()
